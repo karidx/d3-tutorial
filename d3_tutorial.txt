@@ -1,0 +1,16 @@
+D3 tutorial
+
+bare minimum environment setup:
+1. HTML page;
+2. external js file;
+
+Basic HTML page:
+1. document type, HTML;
+2. header, declare a dependency on d3.js
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+3. body, 
+  a. declare an element with id such as "d3Container"
+  b. declare a dependency on a d3 graph, for instance:
+     <script src="audi.js"></script>
+
+script can be placed at header or body.
