@@ -18,3 +18,14 @@ script can be placed at header or body.
 basic api setup:
 1. set up a server that provides useful data;
 
+=======
+on axes, key takeaways:
+1. axis is actually 'axis generator', we use call() method to instruct the generator to draw an axis;
+2. axis requires a scale as a parameter;
+3. axis configuration: 
+  3a: ticks() - defines the number of ticks;
+  3b: tickFormat() - use this method for displaying category; 
+  3c: tickSize() - use this method for drawing grids;
+4. axisBottom actually means the tick orientation is towards the bottom - not the location of the axis;
+5. to control the position of an axis, use translate() method;
+6. svg.append('g').attr('transform', 'translate(x, y)').call(axis)
