@@ -14,3 +14,7 @@ Basic HTML page:
      <script src="audi.js"></script>
 
 script can be placed at header or body.
+
+basic api setup:
+1. set up a server that provides useful data;
+
