@@ -10,17 +10,14 @@ const viz = async () => {
     .attr('height', h);
 
   const [x0, y0, w0, h0] = [50, 20, 450, 300];
-  const yDomain = [10000, 250000];
+  const yDomain = [10000, 220000];
   const yScale = d3.scaleLinear().domain(yDomain).range([h0, 0]);
   const yAxis = d3.axisLeft(yScale).ticks(6).tickFormat(d3.format('$.2s'));
   svg.append('g').attr('transform', `translate(${x0}, ${y0})`).call(yAxis);
 
   let c = Object.keys(data);
-  c.unshift('');
-  c.push('');
-  const xDomain = [1, c.length];
-  const xScale = d3.scaleLinear().domain(xDomain).range([0, w0]);
-  const xAxis = d3.axisBottom(xScale).ticks(c.length).tickFormat((d, i) => c[i]);
+  const xScale = d3.scaleBand().domain(c).range([0, w0]);
+  const xAxis = d3.axisBottom(xScale);
   svg.append('g').attr('transform', `translate(${x0}, ${h0+y0})`).call(xAxis);
 
   let m = []
@@ -34,15 +31,18 @@ const viz = async () => {
     const range = [min, q1, q2, q3, max];
     m.push({'brand': brand, 'range': range});
   }
+  console.log(m);
   
-  svg.selectAll('circle')
+  svg.append('g').attr('class', 'median').selectAll('circle')
     .data(m)
     .enter()
     .append('circle')
     .attr('r', 5)
-    .attr('cx', (d, i) => xScale(i+3))
+    .attr('cx', (d, i) => xScale(d.brand) + xScale.bandwidth()/2)
     .attr('cy', d => yScale(d.range[2]))
     .style('fill', 'darkgray');
+
+  d3.select('g.median').attr('transform', `translate(${x0}, ${y0})`);
 }
 
 viz()

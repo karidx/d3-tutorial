@@ -29,3 +29,8 @@ on axes, key takeaways:
 4. axisBottom actually means the tick orientation is towards the bottom - not the location of the axis;
 5. to control the position of an axis, use translate() method;
 6. svg.append('g').attr('transform', 'translate(x, y)').call(axis)
+
+on band scale, key takeaways:
+1. on 3b, we should use band scale rather than linear scale to present categorical data;
+2. scaleBand().domain([arr]).range([pixels]) - map a category to the start position of the range;
+3. the circles should be offest by the scaleBand().bandwidth()/2 - align with the ticks of the band;
