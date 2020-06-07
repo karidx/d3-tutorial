@@ -17,6 +17,7 @@ const viz = async () => {
 
   let c = Object.keys(data);
   const xScale = d3.scaleBand().domain(c).range([0, w0]);
+  const o = xScale.bandwidth()/2; // offset
   const xAxis = d3.axisBottom(xScale);
   svg.append('g').attr('transform', `translate(${x0}, ${h0+y0})`).call(xAxis);
 
@@ -33,16 +34,37 @@ const viz = async () => {
   }
   console.log(m);
   
+  // scatter plot
   svg.append('g').attr('class', 'median').selectAll('circle')
     .data(m)
     .enter()
     .append('circle')
     .attr('r', 5)
-    .attr('cx', (d, i) => xScale(d.brand) + xScale.bandwidth()/2)
+    .attr('cx', (d, i) => xScale(d.brand) + o)
     .attr('cy', d => yScale(d.range[2]))
     .style('fill', 'darkgray');
 
   d3.select('g.median').attr('transform', `translate(${x0}, ${y0})`);
+
+  // box plot
+  const bw = 20; // box width
+  svg.append('g').attr('class', 'boxplot').selectAll('g.box')
+    .data(m).enter()
+      .append('g')
+      .attr('class', 'box')
+      .attr('transform', d => `translate(${xScale(d.brand)+o}, ${yScale(d.range[2])})`)
+      .each((d, i, nodes) => {
+        d3.select(nodes[i])
+          .append('rect')
+          .attr('width', bw)
+          .attr('height', yScale(d.range[1]) - yScale(d.range[3]))
+          .attr('x', -bw/2)
+          .attr('y', yScale(d.range[3]) - yScale(d.range[2]))
+          .style('fill', 'white')
+          .style('stroke', 'black');
+      });
+      
+  d3.select('g.boxplot').attr('transform', `translate(${x0}, ${y0})`);
 }
 
 viz()

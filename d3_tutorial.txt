@@ -34,3 +34,24 @@ on band scale, key takeaways:
 1. on 3b, we should use band scale rather than linear scale to present categorical data;
 2. scaleBand().domain([arr]).range([pixels]) - map a category to the start position of the range;
 3. the circles should be offest by the scaleBand().bandwidth()/2 - align with the ticks of the band;
+
+====
+arrow function and 'this' keyword in d3.
+to access 'this' variable, you should use function() {}.
+arrow function doesn't allow you to access 'this', but, there's a workaround.
+
+d3 anonymous functions have access to these variables:
+1. datam (d)
+2. current index (i)
+3. current group (nodes)
+4. 'this' as the DOM element
+
+you can do this:
+(d, i, nodes) => {
+  d3.select(nodes[i]);
+}
+
+which is equivalent to:
+function(d, i) {
+  d3.select(this)
+}
