@@ -55,3 +55,14 @@ which is equivalent to:
 function(d, i) {
   d3.select(this)
 }
+
+=====
+box plot:
+it can be broken into several components:
+1. line.range;
+2. line.max;
+3. line.min;
+4. line.median;
+5. rect;
+
+component 1~4 are just lines and 5 is a rectangle;

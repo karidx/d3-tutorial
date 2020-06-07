@@ -51,9 +51,41 @@ const viz = async () => {
   svg.append('g').attr('class', 'boxplot').selectAll('g.box')
     .data(m).enter()
       .append('g')
-      .attr('class', 'box')
       .attr('transform', d => `translate(${xScale(d.brand)+o}, ${yScale(d.range[2])})`)
       .each((d, i, nodes) => {
+        // line.range - value range
+        d3.select(nodes[i])
+          .append('line')
+          .attr('class', 'range')
+          .attr('x1', 0)
+          .attr('x2', 0)
+          .attr('y1', yScale(d.range[0]) - yScale(d.range[2]))
+          .attr('y2', yScale(d.range[4]) - yScale(d.range[2]))
+          .style('stroke', 'black')
+          .style('stroke-width', '4px');
+
+        // line.max - max value
+        d3.select(nodes[i])
+          .append('line')
+          .attr('class', 'max')
+          .attr('x1', -bw/2)
+          .attr('x2', bw/2)
+          .attr('y1', yScale(d.range[4]) - yScale(d.range[2]))
+          .attr('y2', yScale(d.range[4]) - yScale(d.range[2]))
+          .style('stroke', 'black')
+          .style('stroke-width', '4px');
+
+        // line.min - min value
+        d3.select(nodes[i])
+          .append('line')
+          .attr('class', 'min')
+          .attr('x1', -bw/2)
+          .attr('x2', bw/2)
+          .attr('y1', yScale(d.range[0]) - yScale(d.range[2]))
+          .attr('y2', yScale(d.range[0]) - yScale(d.range[2]))
+          .style('stroke', 'black')
+          .style('stroke-width', '4px');
+
         d3.select(nodes[i])
           .append('rect')
           .attr('width', bw)
@@ -62,6 +94,17 @@ const viz = async () => {
           .attr('y', yScale(d.range[3]) - yScale(d.range[2]))
           .style('fill', 'white')
           .style('stroke', 'black');
+
+        // line.median - median value
+        d3.select(nodes[i])
+          .append('line')
+          .attr('class', 'median')
+          .attr('x1', -bw/2)
+          .attr('x2', bw/2)
+          .attr('y1', 0)
+          .attr('y2', 0)
+          .style('stroke', 'darkgray')
+          .style('stroke-width', '4px');
       });
       
   d3.select('g.boxplot').attr('transform', `translate(${x0}, ${y0})`);
